@@ -2,6 +2,46 @@ require("luaclie_c")
 
 luaclie = {}
 
+luaclie.COLOR            = {}
+luaclie.COLOR.DEFAULT    = "\27[0m"
+luaclie.COLOR.GRAY       = "\27[2m"
+luaclie.COLOR.GRAY0      = "\27[30;1m"
+luaclie.COLOR.GRAY1      = "\27[90;2m"
+luaclie.COLOR.GRAY2      = "\27[30;3m"
+luaclie.COLOR.RED        = "\27[31;1m"
+luaclie.COLOR.RED0       = "\27[91;2m"
+luaclie.COLOR.RED1       = "\27[31;3m"
+luaclie.COLOR.RED2       = "\27[31;2m"
+luaclie.COLOR.GREEN      = "\27[32;1m"
+luaclie.COLOR.GREEN0     = "\27[92;2m"
+luaclie.COLOR.GREEN1     = "\27[32;3m"
+luaclie.COLOR.GREEN2     = "\27[32;2m"
+luaclie.COLOR.YELLOW     = "\27[33;1m"
+luaclie.COLOR.YELLOW0    = "\27[93;2m"
+luaclie.COLOR.YELLOW1    = "\27[33;3m"
+luaclie.COLOR.YELLOW2    = "\27[33;2m"
+luaclie.COLOR.BLUE       = "\27[34;1m"
+luaclie.COLOR.BLUE0      = "\27[94;2m"
+luaclie.COLOR.BLUE1      = "\27[34;3m"
+luaclie.COLOR.BLUE2      = "\27[34;2m"
+luaclie.COLOR.MAGENTA    = "\27[35;1m"
+luaclie.COLOR.MAGENTA0   = "\27[95;2m"
+luaclie.COLOR.MAGENTA1   = "\27[35;3m"
+luaclie.COLOR.MAGENTA2   = "\27[35;2m"
+luaclie.COLOR.CYAN       = "\27[36;1m"
+luaclie.COLOR.CYAN0      = "\27[96;2m"
+luaclie.COLOR.CYAN1      = "\27[36;3m"
+luaclie.COLOR.CYAN2      = "\27[36;2m"
+luaclie.COLOR.BOLD       = "\27[1m"
+luaclie.COLOR.BG         = {}
+luaclie.COLOR.BG.GRAY    = "\27[47m"
+luaclie.COLOR.BG.RED     = "\27[41m"
+luaclie.COLOR.BG.GREEN   = "\27[42m"
+luaclie.COLOR.BG.YELLOW  = "\27[43m"
+luaclie.COLOR.BG.BLUE    = "\27[44m"
+luaclie.COLOR.BG.MAGENTA = "\27[45m"
+luaclie.COLOR.BG.CYAN    = "\27[46m"
+
 --D: Table Miner
 --P: table_path : Table path string
 --R: keys       : Table with all keys on table
@@ -104,8 +144,8 @@ luaclie.funcref = function (text)
 	-- Search comments above function
 	local counter = func_info["linedefined"]-1;
 	for line in file:lines() do
-		if string.match(line, "^%-%-") ~= nil then
-			table.insert(comment_table, line)
+		if string.match(line, "^[%s\t]*%-%-") ~= nil then
+			table.insert(comment_table, string.match(line, "^[%s\t]*(%-%-.*)"))
 		else 
 			comment_table = {}
 		end
@@ -152,6 +192,14 @@ end
 --D: C-like printf
 luaclie.printf = function (string, ...)
 	io.write(string.format(string, ...))
+end
+
+--D: printf with color
+luaclie.printc = function (color, string, ...)
+	
+	luaclie.printf(color)
+	luaclie.printf(string, ...)
+	luaclie.printf(luaclie.COLOR.DEFAULT)
 end
 
 --D: Clear screen
