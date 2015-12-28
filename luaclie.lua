@@ -1,4 +1,4 @@
-require("luaclie_c")
+require("luaclie.luaclie_c")
 
 luaclie = {}
 

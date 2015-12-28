@@ -427,7 +427,7 @@ int help(int a, int b)
 }
 
 //------------------------------------------------------------------------------
-int luaopen_luaclie_c(lua_State *L)
+int luaopen_luaclie_luaclie_c(lua_State *L)
 {
 	L_c = L;
 
