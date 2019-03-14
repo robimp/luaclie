@@ -1,1 +1,1 @@
-require("luaclie.luaclie")
+return require("luaclie.luaclie")

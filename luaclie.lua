@@ -206,3 +206,5 @@ end
 luaclie.cls = function ()
 	os.execute("clear")
 end
+
+return luaclie
