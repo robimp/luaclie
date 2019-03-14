@@ -389,7 +389,7 @@ void clie_completion_display(char **matches, int num_matches, int max_length)
 					add_color(COLOR_GREEN, &matches[match_id]);
 
 				// Do the printing stuff
-				printf(matches[match_id]);
+				printf("%s", matches[match_id]);
 				for(k=length; k<max_length; k++)
 					printf(" ");
 			}
