@@ -123,7 +123,7 @@ luaclie.funcref = function (text)
 	end
 
 	func_info = debug.getinfo(current_table)
-	
+
 	-- Error: defined in user interface
 	if func_info["short_src"] == "stdin" then
 		print("function defined in user interface, it has no description")
@@ -134,7 +134,7 @@ luaclie.funcref = function (text)
 	end
 
 	local file = io.open(func_info["short_src"])
-	
+
 	-- Error: no such file
 	if file == nil then
 		print("error: no such file: " .. func_info["short_src"])
@@ -146,7 +146,7 @@ luaclie.funcref = function (text)
 	for line in file:lines() do
 		if string.match(line, "^[%s\t]*%-%-") ~= nil then
 			table.insert(comment_table, string.match(line, "^[%s\t]*(%-%-.*)"))
-		else 
+		else
 			comment_table = {}
 		end
 		counter = counter-1
@@ -172,7 +172,7 @@ luaclie.funcref = function (text)
 		luaclie.printf("-")
 	end
 	luaclie.printf("\27[0m\n")
-	
+
 	-- Print help text
 	print("\27[33;1mFunction:\27[0m ")
 	print("        " .. last_func_name)
@@ -180,7 +180,7 @@ luaclie.funcref = function (text)
 	for _, line in pairs(comment_table) do
 		print("        " .. line)
 	end
-	
+
 	-- Print separator
 	luaclie.printf("\27[30;4;1m")
 	for i = 1, maxlen + 18 do
@@ -196,7 +196,7 @@ end
 
 --D: printf with color
 luaclie.printc = function (color, string, ...)
-	
+
 	luaclie.printf(color)
 	luaclie.printf(string, ...)
 	luaclie.printf(luaclie.COLOR.DEFAULT)

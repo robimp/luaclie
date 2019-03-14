@@ -132,7 +132,7 @@ struct str_array *tableminer_c(const char *table_path)//lua_State *L)
 // 		bail(L, "luaL_loadfile() failed");
 
 // 	// Prime run
-// 	if (lua_pcall(L, 0, 0, 0)) 
+// 	if (lua_pcall(L, 0, 0, 0))
 // 		bail(L, "lua_pcall() failed");
 
 	// Executes luaclie.tableminer(tablepath)
