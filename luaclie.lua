@@ -46,16 +46,30 @@ luaclie.COLOR.BG.CYAN    = "\27[46m"
 --P: table_path : Table path string
 --R: keys       : Table with all keys on table
 luaclie.tableminer = function (table_path)
-	local current_table = {}
-	local keys          = {}
-	local key_name
-	local table_name
-
-	if table_path == nil then
-		table_path = ""
+	local GetTableTypes = function (input_table)
+		local key_types = {}
+		for key, value in pairs(input_table) do
+			key_types[key] = type(value)
+		end
+		return key_types
 	end
 
-	current_table = _ENV
+	local AddTypeSuffixToKeyNames = function (key_types)
+		local keys = {}
+		for name, type in pairs(key_types) do
+			local key_name = name
+			if type == "function" then
+				key_name = key_name .. "("
+			elseif type == "table" then
+				key_name = key_name .. "."
+			end
+			table.insert(keys, key_name)
+		end
+		return keys
+	end
+
+	table_path = table_path and table_path or ""
+	local current_table = _ENV
 
 	for table_name in string.gmatch(table_path, "[^%.^:]+[%.:]") do
 		if type(current_table) ~= "table" then
@@ -68,19 +82,15 @@ luaclie.tableminer = function (table_path)
 		return {}
 	end
 
-	for key in pairs(current_table) do
-		key_name = key
-
-		if type(current_table[key]) == "function" then
-			key_name = key_name .. "("
-		elseif type(current_table[key]) == "table" then
-			key_name = key_name .. "."
-		end
-
-		table.insert(keys, key_name)
+	local key_types = {}
+	local metatable = getmetatable(current_table)
+	if metatable and type(metatable.__index) == "table" then
+		key_types = GetTableTypes(metatable.__index)
 	end
-
-	return keys
+	for key, type in pairs(GetTableTypes(current_table)) do
+		key_types[key] = type
+	end
+	return AddTypeSuffixToKeyNames(key_types)
 end
 
 --D: Function Reference
